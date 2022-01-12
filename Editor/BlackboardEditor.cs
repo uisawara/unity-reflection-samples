@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(Blackboard))]
@@ -18,48 +19,51 @@ public class BlackboardEditor : Editor
         EditorGUI.BeginChangeCheck();
 
         var blackboard = Blackboard.CurrentContext.Properties;
-        foreach (var kv in blackboard)
+        var keys = blackboard.Keys.ToArray();
+        
+        foreach (var key in keys)
         {
-            var type = kv.Value.GetType();
+            var value = blackboard[key];
+            var type = value.GetType();
             if (type == typeof(int))
             {
-                blackboard[kv.Key] = (object)EditorGUILayout.IntField(kv.Key, (int)kv.Value);
+                blackboard[key] = (object)EditorGUILayout.IntField(key, (int)value);
             }
             else if (type == typeof(float))
             {
-                blackboard[kv.Key] = (object)EditorGUILayout.FloatField(kv.Key, (float)kv.Value);
+                blackboard[key] = (object)EditorGUILayout.FloatField(key, (float)value);
             }
             else if (type == typeof(string))
             {
-                blackboard[kv.Key] = (object)EditorGUILayout.TextField(kv.Key, (string)kv.Value);
+                blackboard[key] = (object)EditorGUILayout.TextField(key, (string)value);
             }
             else if (type == typeof(Vector2))
             {
-                blackboard[kv.Key] = (object)EditorGUILayout.Vector2Field(kv.Key, (Vector2)kv.Value);
+                blackboard[key] = (object)EditorGUILayout.Vector2Field(key, (Vector2)value);
             }
             else if (type == typeof(Vector2Int))
             {
-                blackboard[kv.Key] = (object)EditorGUILayout.Vector2IntField(kv.Key, (Vector2Int)kv.Value);
+                blackboard[key] = (object)EditorGUILayout.Vector2IntField(key, (Vector2Int)value);
             }
             else if (type == typeof(Vector3))
             {
-                blackboard[kv.Key] = (object)EditorGUILayout.Vector3Field(kv.Key, (Vector3)kv.Value);
+                blackboard[key] = (object)EditorGUILayout.Vector3Field(key, (Vector3)value);
             }
             else if (type == typeof(Vector3Int))
             {
-                blackboard[kv.Key] = (object)EditorGUILayout.Vector3IntField(kv.Key, (Vector3Int)kv.Value);
+                blackboard[key] = (object)EditorGUILayout.Vector3IntField(key, (Vector3Int)value);
             }
             else if (type == typeof(Vector4))
             {
-                blackboard[kv.Key] = (object)EditorGUILayout.Vector3Field(kv.Key, (Vector3)kv.Value);
+                blackboard[key] = (object)EditorGUILayout.Vector3Field(key, (Vector3)value);
             }
             else if (type == typeof(Vector4))
             {
-                blackboard[kv.Key] = (object)EditorGUILayout.Vector3Field(kv.Key, (Vector4)kv.Value);
+                blackboard[key] = (object)EditorGUILayout.Vector3Field(key, (Vector4)value);
             }
             else
             {
-                EditorGUILayout.LabelField(kv.Key + " " + (string)kv.Value);
+                EditorGUILayout.LabelField(key + " " + (string)value);
             }
         }
 
